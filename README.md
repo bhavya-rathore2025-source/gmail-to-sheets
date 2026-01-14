@@ -130,9 +130,9 @@ python -m src.main
 
 The application uses **OAuth 2.0 (Desktop Application flow)** to securely access Gmail and Google Sheets on behalf of the user.
 
-On the first run, the script opens a browser window where the user grants permission to access their Gmail inbox and Google Sheets. After successful authorization, Google issues an access token and a [...]
+On the first run, the script opens a browser window where the user grants permission to access their Gmail inbox and Google Sheets. After successful authorization, Google issues an access token
 
-On subsequent runs, the stored token is reused and refreshed automatically if expired, so the user is not required to log in again. No passwords or API keys are stored in the code, ensuring secure aut[...]
+On subsequent runs, the stored token is reused and refreshed automatically if expired, so the user is not required to log in again. No passwords or API keys are stored in the code.
 
 ---
 
@@ -140,7 +140,7 @@ On subsequent runs, the stored token is reused and refreshed automatically if ex
 
 To prevent duplicate rows in Google Sheets, the application uses the **Gmail message ID** as a unique identifier for each email.
 
-Before inserting new data, the script reads all existing message IDs from the Google Sheet and loads them into a Python `set`. Since set lookups are fast and unique by nature, the script can efficient[...]
+Before inserting new data, the script reads all existing message IDs from the Google Sheet and loads them into a Python `set`. Since set lookups are fast and unique by nature, the script can run efficiently
 
 If the message ID already exists, the email is skipped. This makes the script safe to re-run multiple times without creating duplicate entries.
 
@@ -152,7 +152,7 @@ The application uses the **Google Sheet itself as persistent state**.
 
 Each processed email’s `messageId` is stored in the first column of the sheet. On every execution, the script reads these stored IDs to determine which emails have already been processed.
 
-This approach avoids the need for an external state file and ensures that state is preserved across script restarts, system reboots, and multiple executions. It also makes the state easy to inspect an[...]
+This approach avoids the need for an external state file and ensures that state is preserved across script restarts, system reboots, and multiple executions. It also makes the state easy to inspect
 
 ## Challenges Faced & Solution
 
@@ -164,7 +164,7 @@ While integrating Google Sheets, the application returned a **403 “insufficien
 The OAuth token was initially generated with **Gmail-only scope**. OAuth tokens cannot be extended after creation, so the same token failed when attempting to access the Google Sheets API.
 
 **Solution:**  
-I updated the configuration to use **combined Gmail and Google Sheets scopes**, deleted the existing OAuth token, and re-authorized the application. This regenerated a token with all required permissi[...]
+I updated the configuration to use **combined Gmail and Google Sheets scopes**, deleted the existing OAuth token, and re-authorized the application. This regenerated a token with all required permission
 
 **Result:**  
 Both Gmail and Google Sheets APIs worked correctly using a single OAuth flow, and the script executed end-to-end without errors.
