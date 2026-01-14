@@ -18,7 +18,7 @@ from src.sheets_service import (
 # ---------- CONFIG ----------
 SPREADSHEET_ID = "1SYtPDjQ_5b2SUwQq0RCawn5SF3ug9LT8z2FcuJ5bU3A"
 SHEET_NAME = "Sheet1"
-ENABLE_SUBJECT_FILTER = False
+ENABLE_SUBJECT_FILTER = True
 SUBJECT_KEYWORD = "invoice"
 
 # ---------- LOGGING ----------
