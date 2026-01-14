@@ -26,6 +26,7 @@ def parse_email(service, message_id):
     headers = payload.get("headers", [])
 
     email_data = {
+        "message_id": message_id,
         "from": get_header(headers, "From"),
         "subject": get_header(headers, "Subject"),
         "date": get_header(headers, "Date"),
