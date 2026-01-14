@@ -30,10 +30,12 @@ The project follows a modular structure where each file has a clear and single r
 
 The simple diagram below shows the data flow of the application.
 
-Gmail Inbox (Unread Emails)
+Gmail Inbox 
 ↓
+
 Gmail API (OAuth 2.0)
 ↓
+
 Python Application
 
     	-Fetch unread email message IDs
@@ -47,10 +49,13 @@ Python Application
     	-Apply subject filter (If filter on)
 
 ↓
+
 Google Sheets API
 ↓
+
 Append Email to Google Sheets (Auto-Retry on Failure)
 ↓
+
 Emails marked as READ (Auto-Retry on Failure)
 
 This architecture ensures
