@@ -30,7 +30,7 @@ logging.basicConfig(
 
 #--Retry Logic----
 def retry(func, retries=3, delay=2):
-    for attempt in range(1, retries + 1):
+    for attempt in range(0, retries):
         try:
             return func()
         except Exception as e:
