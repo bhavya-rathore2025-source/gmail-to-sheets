@@ -30,7 +30,7 @@ The project follows a modular structure where each file has a clear and single r
 
 The diagram below illustrates the end-to-end data flow of the application.
 
-Gmail Inbox  
+->Gmail Inbox  
 → Gmail API (OAuth 2.0)  
 → Python Application  
 → Google Sheets API  
