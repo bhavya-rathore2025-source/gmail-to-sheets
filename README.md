@@ -28,28 +28,23 @@ The project follows a modular structure where each file has a clear and single r
 
 ## High-Level Architecture Diagram
 
-Below is a clear, step-by-step data flow showing how the application moves messages from Gmail into Google Sheets.
+The diagram below illustrates the end-to-end data flow of the application.
 
-Gmail Inbox
-  |
-  v
-Gmail API (OAuth 2.0)
-  |
-  v
-Python Application
-  - Fetch unread email message IDs
-  - Load existing messageIds from Google Sheet
-  - Skip duplicate emails (by messageId)
-  - Parse non-duplicate emails (sender, subject, date, content)
-  - Apply optional subject filter (if enabled)
-  - Append parsed email rows to Google Sheet (with auto-retry on failure)
-  - Mark processed emails as READ in Gmail (with auto-retry on failure)
-  |
-  v
-Google Sheets API
-  |
-  v
-Google Sheet (rows appended; messageId persisted for state)
+Gmail Inbox  
+→ Gmail API (OAuth 2.0)  
+→ Python Application  
+→ Google Sheets API  
+→ Google Sheet (Persistent State)
+
+### Python Application Responsibilities
+- Fetch unread email message IDs from Gmail  
+- Load existing message IDs from Google Sheet  
+- Skip duplicate emails using messageId  
+- Parse non-duplicate emails (From, Subject, Date, Content)  
+- Apply optional subject filter (if enabled)  
+- Append parsed data to Google Sheets (with retry on failure)  
+- Mark processed emails as READ in Gmail (with retry on failure)
+
 
 This architecture ensures:
 -> duplicate emails are skipped
