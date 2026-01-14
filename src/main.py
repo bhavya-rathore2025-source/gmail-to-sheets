@@ -1,6 +1,7 @@
 # src/main.py
 
 import logging
+import time
 
 from src.gmail_service import (
     get_gmail_service,
@@ -26,6 +27,19 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
+
+#--Retry Logic----
+def retry(func, retries=3, delay=2):
+    for attempt in range(1, retries + 1):
+        try:
+            return func()
+        except Exception as e:
+            logging.warning(
+                f"Retry {attempt}/{retries} failed: {e}"
+            )
+            if attempt == retries:
+                raise
+            time.sleep(delay)
 
 # ---------- MAIN ----------
 def main():
@@ -57,14 +71,13 @@ def main():
 
 
         # Append to Sheet
-        append_email_row(
-            sheets_service, SPREADSHEET_ID, SHEET_NAME, email
-        )
+        retry(lambda: append_email_row(
+        sheets_service, SPREADSHEET_ID, SHEET_NAME, email))
+        logging.info(f"Stored message {message_id} in sheet")
 
         # Mark as read
-        mark_as_read(gmail_service, message_id)
-
-        logging.info(f"Processed and stored message {message_id}")
+        retry(lambda: mark_as_read(gmail_service, message_id))
+        logging.info(f"Read message {message_id}")
 
     logging.info("Run completed successfully")
 
